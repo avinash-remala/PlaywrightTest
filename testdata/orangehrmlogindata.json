@@ -1,0 +1,7 @@
+{
+    "username":"Admin",
+    "password":"admin123",
+    "invalidusername":"test",
+    "invalidpassword":"test123",
+    "buzztext":"Hello Test!"
+}
