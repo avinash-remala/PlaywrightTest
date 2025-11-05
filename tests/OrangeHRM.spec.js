@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 import logindata from "../testdata/orangehrmlogindata.json";
 
 test ('Login-ValidCredentials',async({page}) => {
-    await page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
+    await page.goto(process.env.APP_ORANGEHRM_URL);
     await page.locator("input[name='username']").fill(process.env.APP_USERNAME);
     await page.locator("input[type='password']").fill(process.env.APP_PASSWORD);
     await page.locator("button[type='submit']").click();
