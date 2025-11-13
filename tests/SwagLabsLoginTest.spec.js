@@ -53,10 +53,10 @@ test ('Logout',async({page}) => {
     await page.locator("input[data-test='username']").fill(logindata.username);
     await page.locator("input[type='password']").fill(logindata.password);
     await page.locator("input[type='submit']").click();
-    await expect(page).toHaveURL("https://www.saucedemo.com/v1/inventory.html");
+    await expect(page).toHaveURL("https://www.saucedemo.com/inventory.html");
     await page.locator("//button[normalize-space(text())='Open Menu']").click();
     await page.locator("//a[normalize-space(text())='Logout']").click();
-    await expect(page).toHaveURL("https://www.saucedemo.com/v1/index.html");
+    await expect(page).toHaveURL("https://www.saucedemo.com/");
 })
 
 test('should fetch a list of users', async ({ request }) => {
