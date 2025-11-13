@@ -30,7 +30,7 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     //baseURL: 'https://www.saucedemo.com/v1',
-     headless: false, 
+     headless: true, 
     /* Ignore HTTPS errors (useful when corporate proxies or invalid certs are present) */
     ignoreHTTPSErrors: true,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
