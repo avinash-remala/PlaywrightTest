@@ -1,17 +1,24 @@
 import { test, expect } from '@playwright/test';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 import logindata from "../testdata/orangehrmlogindata.json";
 
-test ('Login-ValidCredentials',async({page}) => {
+async function login(page) {
     await page.goto(process.env.APP_ORANGEHRM_URL);
     await page.locator("input[name='username']").fill(process.env.APP_USERNAME);
     await page.locator("input[type='password']").fill(process.env.APP_PASSWORD);
     await page.locator("button[type='submit']").click();
-    await expect(page).toHaveURL ("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
+}
+
+test('Login-ValidCredentials', async ({ page }) => {
+    login(page);
+    await expect(page).toHaveURL("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
     await expect(page.locator("//p[text()='Time at Work']")).toBeVisible();
 });
 
-test ('Login-InvalidCredentials',async({page}) => {
+test('Login-InvalidCredentials', async ({ page }) => {
     await page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
     await page.locator("input[name='username']").fill(logindata.invalidusername);
     await page.locator("input[type='password']").fill(logindata.invalidpassword);
@@ -19,18 +26,15 @@ test ('Login-InvalidCredentials',async({page}) => {
     await expect(page.locator("//p[text()='Invalid credentials']")).toBeVisible();
 });
 
-test ('Login-EmptyCredentials',async({page}) => {
+test('Login-EmptyCredentials', async ({ page }) => {
     await page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
     await page.locator("button[type='submit']").click();
     await expect(page.locator("(//span[contains(@class,'oxd-text oxd-text--span')])[1]")).toBeVisible();
     await expect(page.locator("(//span[contains(@class,'oxd-text oxd-text--span')])[2]")).toBeVisible();
 });
 
-test ('Post and Verify in Newsfeed',async({page}) => {
-    await page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
-    await page.locator("input[name='username']").fill(logindata.username);
-    await page.locator("input[type='password']").fill(logindata.password);
-    await page.locator("button[type='submit']").click();
+test('Post and Verify in Newsfeed', async ({ page }) => {
+    login(page);
     await page.locator("//span[text()='Buzz']").click();
     await page.getByRole('button', { name: 'Share Photos' }).click();
     await page.locator('(//textarea[@placeholder="What\'s on your mind?"])[2]').fill(logindata.buzztext);
@@ -44,10 +48,7 @@ test ('Post and Verify in Newsfeed',async({page}) => {
 });
 
 test('Adding a job title', async ({ page }) => {
-    await page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index");
-    await page.locator("input[name='username']").fill(logindata.username);
-    await page.locator("input[type='password']").fill(logindata.password);
-    await page.locator("button[type='submit']").click();
+    login(page);
     await page.locator("//span[text()='Admin']").click();
     await page.locator('(//span[@class="oxd-topbar-body-nav-tab-item"])[2]').click();
     await page.locator("//a[text()='Job Titles']").click();
